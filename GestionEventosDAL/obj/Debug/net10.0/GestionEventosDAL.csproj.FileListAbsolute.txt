@@ -1,0 +1,15 @@
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\bin\Debug\net10.0\GestionEventosDAL.deps.json
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\bin\Debug\net10.0\GestionEventosDAL.runtimeconfig.json
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\bin\Debug\net10.0\GestionEventosDAL.dll
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\bin\Debug\net10.0\GestionEventosDAL.pdb
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.csproj.AssemblyReference.cache
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.AssemblyInfoInputs.cache
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.AssemblyInfo.cs
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.dll
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\refint\GestionEventosDAL.dll
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.pdb
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionEventosDAL.genruntimeconfig.cache
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\ref\GestionEventosDAL.dll
+C:\Users\Dell\source\repos\WebGestionEventos\GestionEventosDAL\obj\Debug\net10.0\GestionE.2AB15CBC.Up2Date

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GestionEventosBLL/GestionEventosBLL.csproj" />
+  <Project Path="GestionEventosDAL/GestionEventosDAL.csproj" />
+  <Project Path="WebGestionEventos/WebGestionEventos.csproj" />
+</Solution>
