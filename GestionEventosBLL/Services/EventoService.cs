@@ -36,11 +36,8 @@ namespace GestionEventosBLL.Services
         public async Task<IEnumerable<EventoDto>> GetByUsuarioIdAsync(int usuarioId)
         {
             var todosLosEventos = await _repository.GetAllAsync();
-
-            // Filtrar solo los eventos pertenecientes al usuario autenticado
             var eventosUsuario = todosLosEventos.Where(e => e.IdUsuario == usuarioId);
 
-            // Mapear la lista filtrada a DTOs
             return eventosUsuario.Select(e => new EventoDto
             {
                 IdEvento = e.IdEvento,

@@ -22,7 +22,7 @@ namespace WebGestionEventos.Controllers
             var response = await _authService.LoginAsync(dto);
             if (response == null)
             {
-                return Unauthorized(new { mensaje = "Credenciales inválidas" });
+                return Unauthorized(new { mensaje = "Credenciales invalidas" });
             }
             return Ok(response);
         }

@@ -31,33 +31,23 @@ namespace GestionEventosBLL.Services
                 return null;
             }
 
-            // 1. Obtener todos los usuarios de la base de datos
             var usuarios = await _usuarioRepository.GetAllAsync();
-
-            // 2. Normalizar el correo a minúsculas y buscar en la lista (compatible con EF Core y C#)
             var correoBuscar = dto.Correo.Trim().ToLower();
             var usuario = usuarios.FirstOrDefault(u => u.Correo != null && u.Correo.Trim().ToLower() == correoBuscar);
 
             if (usuario == null)
             {
-                // El correo no existe en la base de datos
                 return null;
             }
 
-            // 3. Generar el Hash MD5 de la contraseña ingresada
             string inputHash = ConvertToMD5(dto.Password.Trim());
-
-            // 4. Limpiar el Hash obtenido de la base de datos (remover espacios)
             string dbHash = (usuario.PasswordHash ?? string.Empty).Trim().ToLower();
 
-            // 5. Verificar coincidencia exacta de Hashes
             if (dbHash != inputHash)
             {
-                // La contraseña no coincide
                 return null;
             }
 
-            // 6. Generar el Token JWT
             var token = GenerarTokenJwt(usuario);
 
             return new AuthResponseDto
@@ -68,7 +58,7 @@ namespace GestionEventosBLL.Services
             };
         }
 
-        // Convierte la contraseña en texto plano a su equivalente MD5 (32 caracteres hexadecimales en minúscula)
+        // Conversion MD5
         private static string ConvertToMD5(string input)
         {
             using (var md5 = MD5.Create())

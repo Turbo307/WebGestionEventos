@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebGestionEventos.Controllers
 {
-    [Authorize] // Requiere Token JWT
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class EventosController : ControllerBase
@@ -47,11 +47,10 @@ namespace WebGestionEventos.Controllers
             var result = await _eventoService.GetByIdAsync(id);
             if (result == null) return NotFound();
 
-            // Opcional: Validar que el evento pertenezca al usuario que lo consulta
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (int.TryParse(userIdClaim, out int usuarioId) && result.IdUsuario != usuarioId)
             {
-                return Forbid(); // 403 No tiene permiso para ver eventos de otros usuarios
+                return Forbid();
             }
 
             return Ok(result);
@@ -60,7 +59,6 @@ namespace WebGestionEventos.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] EventoDto dto)
         {
-            // Asignar automáticamente el ID del usuario del Token para mayor seguridad
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (int.TryParse(userIdClaim, out int usuarioId))
             {
