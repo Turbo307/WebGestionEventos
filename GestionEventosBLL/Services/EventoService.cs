@@ -33,6 +33,31 @@ namespace GestionEventosBLL.Services
             });
         }
 
+        public async Task<IEnumerable<EventoDto>> GetByUsuarioIdAsync(int usuarioId)
+        {
+            var todosLosEventos = await _repository.GetAllAsync();
+
+            // Filtrar solo los eventos pertenecientes al usuario autenticado
+            var eventosUsuario = todosLosEventos.Where(e => e.IdUsuario == usuarioId);
+
+            // Mapear la lista filtrada a DTOs
+            return eventosUsuario.Select(e => new EventoDto
+            {
+                IdEvento = e.IdEvento,
+                NombreEvento = e.NombreEvento,
+                Descripcion = e.Descripcion,
+                Fecha = e.Fecha,
+                HoraInicio = e.HoraInicio,
+                HoraFin = e.HoraFin,
+                Estado = e.Estado,
+                Recordatorio = e.Recordatorio,
+                IdUsuario = e.IdUsuario,
+                IdCategoria = e.IdCategoria,
+                IdPrioridad = e.IdPrioridad,
+                IdEstado = e.IdEstado
+            });
+        }
+
         public async Task<EventoDto?> GetByIdAsync(int id)
         {
             var e = await _repository.GetByIdAsync(id);

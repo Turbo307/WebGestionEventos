@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Eventos - Pruebas API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f6f9;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+        input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        .logout-btn {
+            background-color: #dc3545;
+        }
+
+            .logout-btn:hover {
+                background-color: #bd2130;
+            }
+
+        pre {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Cliente de Pruebas - API Gestión de Eventos</h2>
+
+    <!-- Formulario de Login -->
+    <div id="login-card" class="card">
+        <h3>Iniciar Sesión</h3>
+        <input type="email" id="email" placeholder="Correo electrónico" value="wendy.lopez@correo.com">
+        <input type="password" id="password" placeholder="Contraseña" value="123456">
+        <button type="button" onclick="login()">Obtener Token JWT</button>
+        <p id="login-msg" style="color: red;"></p>
+    </div>
+
+    <!-- Panel Autenticado -->
+    <div id="auth-card" class="card hidden">
+        <h3>Sesión Activa</h3>
+        <p><strong>Usuario:</strong> <span id="user-info"></span></p>
+        <button type="button" onclick="getEventos()">Cargar Eventos (GET /api/eventos)</button>
+        <button type="button" onclick="logout()" class="logout-btn">Cerrar Sesión</button>
+    </div>
+
+    <!-- Resultado JSON -->
+    <div class="card" style="max-width: 800px;">
+        <h3>Respuesta de la API</h3>
+        <pre id="json-output">Inicia sesión para realizar peticiones...</pre>
+    </div>
+
+    <script>
+                // Asegúrate de que el puerto (7293) sea exactamente el mismo que usa tu API
+                const API_URL = "https://localhost:7293/api";
+
+                window.onload = function() {
+                    checkAuth();
+                };
+
+                function checkAuth() {
+                    const token = localStorage.getItem("jwtToken");
+                    const userName = localStorage.getItem("userName");
+
+                    if (token) {
+                        document.getElementById("login-card").classList.add("hidden");
+                        document.getElementById("auth-card").classList.remove("hidden");
+                        document.getElementById("user-info").innerText = userName || "Autenticado";
+                    } else {
+                        document.getElementById("login-card").classList.remove("hidden");
+                        document.getElementById("auth-card").classList.add("hidden");
+                    }
+                }
+
+                async function login() {
+                    const correo = document.getElementById("email").value;
+                    const password = document.getElementById("password").value;
+                    const msg = document.getElementById("login-msg");
+                    msg.innerText = "";
+
+                    try {
+                        const response = await fetch(`${API_URL}/auth/login`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ correo, password })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            localStorage.setItem("jwtToken", data.token);
+                            localStorage.setItem("userName", data.nombre);
+                            document.getElementById("json-output").innerText = JSON.stringify(data, null, 2);
+                            checkAuth();
+                        } else {
+                            msg.innerText = data.mensaje || "Error al iniciar sesión";
+                            document.getElementById("json-output").innerText = JSON.stringify(data, null, 2);
+                        }
+                    } catch (error) {
+                        msg.innerText = "Error de conexión con la API";
+                        console.error(error);
+                    }
+                }
+
+                async function getEventos() {
+                    const token = localStorage.getItem("jwtToken");
+
+                    try {
+                        const response = await fetch(`${API_URL}/eventos`, {
+                            method: "GET",
+                            headers: {
+                                "Authorization": `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            }
+                        });
+
+                        if (response.status === 401) {
+                            alert("Sesión expirada o no autorizada");
+                            logout();
+                            return;
+                        }
+
+                        const data = await response.json();
+                        document.getElementById("json-output").innerText = JSON.stringify(data, null, 2);
+                    } catch (error) {
+                        document.getElementById("json-output").innerText = "Error al consultar eventos";
+                        console.error(error);
+                    }
+                }
+
+                function logout() {
+                    localStorage.removeItem("jwtToken");
+                    localStorage.removeItem("userName");
+                    document.getElementById("json-output").innerText = "Sesión cerrada.";
+                    checkAuth();
+                }
+    </script>
+</body>
+</html>
